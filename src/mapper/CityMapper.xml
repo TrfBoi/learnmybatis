@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.CityMapper">
+    <sql id="prefixSelect">
+        select * from city
+    </sql>
+    <select id="selectAll" resultType="City">
+        <include refid="prefixSelect"></include>
+    </select>
+
+    <select id="dynamicSelect" resultType="City">
+        select * from city
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="provinceid != null and provinceid != ''">
+                and provinceid = #{provinceid}
+            </if>
+        </where>
+    </select>
+
+    <select id="foreachSelect" resultType="City">
+        select * from city
+        where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+</mapper>
